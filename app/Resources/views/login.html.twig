@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>{% block title %}PPS{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico')}}" />
+
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+
+        <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+    </head>
+
+    <body class="gray-bg">
+        
+        <nav class="navbar navbar-static-top" style="margin-bottom: 0">
+                    <ul class="nav navbar-top-links navbar-right" >
+                        <li class="dropdown">
+                            <a id="flagName" href="#" class="dropdown-toggle count-info" data-toggle="dropdown"> 
+                                <img src="{{ asset('/assets/img/' ~ (app.request.locale == 'en' ? 'United-States' : 'Spain') ~'.png') }}" alt="">
+
+                                {{ app.request.locale == 'en' ? 'EN' : 'ES' }}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-menu-left">
+                                        <a href="{{ path('changeLanguage',{'language':'es', 'ruta':app.request.attributes.get("_route")}) }}"> 
+                                            <img src="{{ asset('assets/img/Spain.png')}}"> Español
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="{{ path('changeLanguage',{'language':'en', 'ruta':app.request.attributes.get("_route")}) }}"> 
+                                        <img src="{{ asset('assets/img/United-States.png')}}"> English
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+        <div class="middle-box text-center loginscreen animated fadeInDown">
+            <div>
+                <div>
+
+                    <h1 class="logo-name"><a href="#" ><img src="{{ asset('assets/img/logoProyecto2.png')}}" width="300px;"></a></h1>
+
+                </div>
+                
+                <h3>{{ 'Login.bienvenido'  | trans }}</h3>
+                <p>{{ 'Login.datos'  | trans }}</p>
+                {% if errorMessage != "" %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+                {{ render(controller('FOSUserBundle:Security:login')) }}
+
+                <p class="m-t"> <small> PPS2 &copy; 2017</small> </p>
+            </div>
+        </div>
+
+        <!-- Mainly scripts -->
+        <script src="{{ asset('assets/js/jquery-2.1.1.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+    </body>
+
+</html>

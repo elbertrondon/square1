@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Wish List</h2>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-md-9">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <span class="pull-right">
+                            {% if products %}
+                                (<strong id="cantProd">{{products|length}}</strong>) items
+                            {% else %}
+                                (<strong id="cantProd">0</strong>) items
+                            {% endif %}
+                        </span>
+                        <h5>Items in your wishlist</h5>
+                    </div>
+
+                    {% if products %}
+                        {% for item in products %}
+                            <div id="pr_{{item.id}}" class="ibox-content">
+                                <div class="table-responsive">
+                                    <table class="table shoping-cart-table">
+                                        <tbody>
+                                            <tr>
+                                                <td width="90">
+                                                    <div class="cart-product-imitation">
+                                                        <img width="90px" src="{{item.image}}">
+                                                    </div>
+                                                </td>
+                                                <td class="desc">
+                                                    <h3>
+                                                        <a href="#" class="text-navy">
+                                                            {{ item.name }}
+                                                        </a>
+                                                    </h3>
+                                                    <p class="small">
+                                                        <img src="{{item.brand}}">
+                                                    </p>
+                                                    <p class="small m-b-none">
+                                                        <b> Description: </b>
+                                                    <ul>
+                                                        {% for des in item.description %}
+                                                            <li> {{ des }} </li>
+                                                            {% endfor %}
+                                                    </ul>
+                                                    </p>
+
+                                                    <div class="m-t-sm">
+                                                        <a onclick="removeProducts({{item.id}}, {{app.user.id}});" class="btn btn-xs btn-outline btn-danger"><i class="fa fa-trash"></i> Remove item</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <h4>
+                                                        € {{ item.price }}
+                                                    </h4>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="ibox">
+
+                    {% if products|length > 0 %}
+                        <div class="ibox-title">
+                            <h5>Share wishlist</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <p>
+                                You can share your wishlist with friends 
+                            </p>
+                            <hr/>
+                            <div class="m-t-sm">
+                                <div class="btn-group">
+                                    <button id="shareButton" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-share"></i> Share </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <i class="fa fa-laptop modal-icon"></i>
+                                        <h2 class="modal-title">Share your Products!!</h2>
+                                        <small class="font-bold"> {{ app.user.name }}'s wishlist</small>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>You have 3 options to share: <br> </p>
+                                        <ul>
+                                            <li>
+                                                <p>
+                                                    Copy this link and share with your friends:<b> {{urlToken}} </b>
+                                                </p>
+                                            </li>
+                                            <li> 
+                                                    <p>Send via Twitter:  <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{urlToken}}" data-text="Share your wishlist"></a> <script>!function (d, s, id) {
+                                                            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                                            if (!d.getElementById(id)) {
+                                                                js = d.createElement(s);
+                                                                js.id = id;
+                                                                js.src = p + '://platform.twitter.com/widgets.js';
+                                                                fjs.parentNode.insertBefore(js, fjs);
+                                                            }
+                                                        }(document, 'script', 'twitter-wjs');</script></p>
+                                            </li>
+                                            <li>
+                                                <span>Type an email address to send: <br></span>
+                                                <div class="col-lg-8">
+                                                    <div class="form-group-sm">
+                                                        <input id="emailWish" type="email" placeholder="Email" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <a onclick="sendWishList();" type="button" class="btn btn-sm btn-primary">Share</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        <a type="button" class="btn btn-white" data-dismiss="modal">Close</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="ibox-title">
+                            <h5>Share wishlist</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <p>
+                                You don't have products to share
+                            </p>
+                            <hr/>
+                            <div class="m-t-sm">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" disabled="" ><i class="fa fa-share"></i> Share </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/plugins/toastr/toastr.min.js') }}"></script>
+    <script type="text/javascript">
+
+                                                        function removeProducts(id, userId)
+                                                        {
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                url: "{{ path('removeProducts') }}",
+                                                                dataType: 'json',
+                                                                async: true,
+                                                                data: {
+                                                                    productId: id,
+                                                                    userId: userId
+                                                                },
+                                                                success: function (result)
+                                                                {
+                                                                    $("#pr_" + id).remove();
+                                                                    $("#cantProd").text($("#cantProd").text() - 1);
+                                                                    console.log($("#cantProd").text());
+                                                                    if ($("#cantProd").text() == 0)
+                                                                    {
+                                                                        $("#shareButton").prop('disabled', true);
+                                                                    }
+                                                                    toastr.success('', 'Product removed from wishlist!');
+                                                                }
+
+                                                            });
+                                                        }
+
+                                                        function sendWishList()
+                                                        {
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                url: "{{ path('shareWishList') }}",
+                                                                dataType: 'json',
+                                                                async: true,
+                                                                data: {
+                                                                    email: $("#emailWish").val()
+                                                                },
+                                                                success: function (result)
+                                                                {
+                                                                    toastr.success('', 'Wishlist sended!');
+                                                                }
+
+                                                            });
+                                                        }
+
+
+    </script>
+{% endblock %}

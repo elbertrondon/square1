@@ -1,0 +1,52 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+
+        <head>
+
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <title>{% block title %}PPS2{% endblock %}</title>
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+            <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+
+            <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+        </head>
+
+        <body class="gray-bg">
+            <div class="middle-box text-center loginscreen animated fadeInDown">
+                <div>
+                    <div>
+                        <h1 class="logo-name"><a href="#" ><img src="{{ asset('assets/img/logoProyecto2.png')}}" width="300px;"></a></h1>
+                    </div>
+                    <p>{{ 'resetting.reset.submit'|trans }}</p>
+                    {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+                    {#{{ form_widget(form) }}#}
+                    <div class="form-group">
+                        {{ form_widget (form.plainPassword.first,{'attr':{'class':'form-control', 'required': 'required', 'placeholder':'New Password' }}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget (form.plainPassword.second,{'attr':{'class':'form-control', 'required': 'required', 'placeholder':'Repeat Password' }}) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">{{ 'resetting.reset.submit'|trans }}</button>
+                    {{ form_end(form) }}
+                    <p class="m-t"> <small> PPS2 &copy; 2017</small> </p>
+                </div>
+            </div>
+
+            <!-- Mainly scripts -->
+            <script src="{{ asset('assets/js/jquery-2.1.1.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+        </body>
+
+    </html>
+{% endblock %}
+
