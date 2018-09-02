@@ -128,8 +128,16 @@ class DefaultController extends Controller {
                 $em->flush();
             }
         }
+        
+        if ($request->isXmlHttpRequest()) {
+            return new Response(json_encode('sync complete'));
+        }
+        else
+        {
+            return $this->redirectToRoute('productsGrid');
+        }
 
-        return new Response(json_encode('sync complete'));
+        
     }
 
     /**
